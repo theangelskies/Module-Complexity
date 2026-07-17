@@ -26,6 +26,20 @@ class SkipListTest(unittest.TestCase):
 
         self.assertEqual(sl.to_list(), [1, 2, 3, 4, 5, 10])
 
+    def test_empty_skip_list(self):
+        sl = SkipList()
+        self.assertEqual(sl.to_list(), [])
+        self.assertNotIn("a", sl)
+
+    def test_insert_out_of_order_with_duplicates(self):
+        sl = SkipList()
+        for value in [5, 3, 5, 1, 4, 2]:
+            sl.insert(value)
+
+        self.assertEqual(sl.to_list(), [1, 2, 3, 4, 5, 5])
+        self.assertIn(5, sl)
+        self.assertNotIn(6, sl)
+
 
 if __name__ == "__main__":
     unittest.main()

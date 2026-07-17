@@ -54,6 +54,28 @@ class LruCacheTest(unittest.TestCase):
         self.assertEqual(cache.get("a"), 1)
         self.assertEqual(cache.get("c"), 3)
 
+    def test_set_existing_key_updates_value_and_recency(self):
+        cache = LruCache(limit=2)
+
+        cache.set("a", 1)
+        cache.set("b", 2)
+        cache.set("a", "updated")
+        cache.set("c", 3)
+
+        self.assertIsNone(cache.get("b"))
+        self.assertEqual(cache.get("a"), "updated")
+        self.assertEqual(cache.get("c"), 3)
+
+    def test_limit_one(self):
+        cache = LruCache(limit=1)
+
+        cache.set("a", 1)
+        self.assertEqual(cache.get("a"), 1)
+
+        cache.set("b", 2)
+        self.assertIsNone(cache.get("a"))
+        self.assertEqual(cache.get("b"), 2)
+
 
 if __name__ == "__main__":
     unittest.main()
